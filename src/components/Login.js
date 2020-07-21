@@ -1,14 +1,18 @@
-import React, { useState } from "react";
+import React, { Component } from "react";
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 
-const useStyles = makeStyles((theme) => ({
+import { withStyles } from "@material-ui/core/styles";
+import PropTypes from "prop-types";
+import {connect} from 'react-redux';
+import {loginUser} from '../redux/actions/userActions';
+
+const useStyles = (theme) => ({
   paper: {
     marginTop: theme.spacing(8),
     display: 'flex',
@@ -26,20 +30,34 @@ const useStyles = makeStyles((theme) => ({
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
-}));
+});
 
 
-export default function Login() {
-  const classes = useStyles();
+class Login extends Component{
+  constructor() {
+    super();
+    this.state = {
+      email: '',
+      password: '',
+    };
+  }
+  handleChange = (event) => {
+    this.setState({
+      [event.target.name]: event.target.value
+    });
+  };
 
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  
-  const handleSubmit = (evt) => {
-      evt.preventDefault();
-      console.log(email,password);
+  handleSubmit = (event) => {
+    event.preventDefault();
+    const userData={
+        email:this.state.email,
+        password:this.state.password
+    };
+    this.props.loginUser(userData);
   }
 
+  render() {
+  const {classes}=this.props;
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -50,7 +68,7 @@ export default function Login() {
         <Typography component="h1" variant="h5">
           Sign in
         </Typography>
-        <form className={classes.form} noValidate onSubmit={handleSubmit}>
+        <form className={classes.form} noValidate onSubmit={this.handleSubmit}>
           <TextField
             variant="outlined"
             margin="normal"
@@ -61,8 +79,8 @@ export default function Login() {
             name="email"
             autoComplete="email"
             autoFocus
-            value={email}
-            onChange={e=>setEmail(e.target.value)}
+            value={this.state.email}
+            onChange={this.handleChange}
           />
           <TextField
             variant="outlined"
@@ -74,8 +92,8 @@ export default function Login() {
             type="password"
             id="password"
             autoComplete="current-password"
-            value={password}
-            onChange={e=>setPassword(e.target.value)}
+            value={this.state.password}
+            onChange={this.handleChange}
           />
           <Button
             type="submit"
@@ -90,4 +108,16 @@ export default function Login() {
       </div>
     </Container>
   );
+  }
 }
+
+Login.propTypes = {
+  classes: PropTypes.object.isRequired,
+  loginUser:PropTypes.func.isRequired,
+};
+
+const mapActionsToProps={
+  loginUser
+}
+
+export default connect(null,mapActionsToProps)(withStyles(useStyles)(Login));
