@@ -22,6 +22,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const facilities =["Tennis Court","Swimming Pool","Badminton Court"];
+
 export default function Home() {
   const classes = useStyles();
 
@@ -44,9 +46,7 @@ export default function Home() {
         </Toolbar>
       </AppBar>
       <Container maxWidth="sm">
-        <FacilityCard/>
-        <FacilityCard/>
-        <FacilityCard/>
+      {facilities.map(facility=><FacilityCard facility={facility}/>)}
       </Container>
     </div>
   );

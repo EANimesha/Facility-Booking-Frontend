@@ -35,7 +35,7 @@ class FacilityCard extends Component {
   }
 
   render() {
-    const {classes}=this.props;
+    const {classes,facility}=this.props;
 
     return (
       <div>
@@ -43,10 +43,10 @@ class FacilityCard extends Component {
           <CardContent>
             <Typography
               className={classes.title}
-              color="textSecondary"
+              variant="h4"
               gutterBottom
             >
-              Tennis Court
+              {facility}
             </Typography>
             <CardMedia
               style={{ height: 0, paddingTop: "56%" }}
