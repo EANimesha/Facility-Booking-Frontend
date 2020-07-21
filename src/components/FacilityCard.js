@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 import Card from "@material-ui/core/Card";
-import CardActions from "@material-ui/core/CardActions";
+// import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
 import TextField from "@material-ui/core/TextField";
@@ -25,9 +25,18 @@ const useStyles = (theme) => ({
   });
 
 class FacilityCard extends Component {
-    
+  createHours= () => {
+    let hours = []
+
+    for (let i = 0; i < 25; i++) {
+      hours.push(<MenuItem value={i}>{i}:00 To {i+1}:00</MenuItem>)
+    }
+    return hours
+  }
+
   render() {
     const {classes}=this.props;
+
     return (
       <div>
       <Card>
@@ -59,22 +68,15 @@ class FacilityCard extends Component {
                 />
 
                 <br/>
-                  Time From :
-                <Select
-                  label="From"
-                >
-                  <MenuItem value={10}>10</MenuItem>
-                  <MenuItem value={20}>20</MenuItem>
-                  <MenuItem value={30}>30</MenuItem>
-                </Select>
+                <Typography variant="body">
+                Time  :
+                </Typography>
 
-                  To :
                 <Select
                   label="From"
                 >
-                  <MenuItem value={10}>10</MenuItem>
-                  <MenuItem value={20}>20</MenuItem>
-                  <MenuItem value={30}>30</MenuItem>
+
+                {this.createHours()}
                 </Select>
 
                   <p/>
